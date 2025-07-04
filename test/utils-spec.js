@@ -36,7 +36,7 @@ describe('Utilities', () => {
     const props = { flexDirRow: ExtendedBreakpoints.MEDIUM, flexOrderSmall: 4, flexChild: SpaceControls.GROW };
     const classNames = flexboxClassNames(props);
     expect(classNames['medium-flex-dir-row']).toBe('medium');
-    expect(classNames['small-order-undefined']).toBe(4);
+    expect(classNames['small-order-4']).toBe(4);
     expect(classNames['flex-child-grow']).toBe('grow');
   });
 });

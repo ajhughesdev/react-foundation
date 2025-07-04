@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useId } from 'react';
 import PropTypes from 'prop-types';
 import { SwitchSizes, SwitchInputTypes } from '../enums';
 import { GeneralPropTypes, FlexboxPropTypes, createClassName, generalClassNames, removeProps, objectValues } from '../utils';
 
-let currentId = 0;
 
 /**
  * Switch component.
@@ -20,7 +19,7 @@ export const Switch = props => {
     generalClassNames(props)
   );
 
-  const switchId = props.id || `switch${currentId++}`;
+  const switchId = props.id || useId();
 
   // TODO: Consider refactoring this, the rendering a little bit messy...
 

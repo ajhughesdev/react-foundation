@@ -1,155 +1,148 @@
 import React from 'react';
-import { render } from 'enzyme';
-import { expect } from 'chai';
-import { Button, Link, ButtonSizes, ButtonColors } from '../../src/components/button';
+import { render, screen } from '@testing-library/react';
+import { Button, Link } from '../../src/components/button';
 import { Colors, Sizes } from '../../src/enums';
 
-// TODO: Add test cases for invalid enum values
-
 describe('Button component', () => {
-
-  it('sets tag name', () => {
-    const component = render(<Button/>);
-    expect(component).to.have.tagName('button');
+  test('sets tag name', () => {
+    const { container } = render(<Button />);
+    expect(container.firstChild.tagName).toBe('BUTTON');
   });
 
-  it('sets default class name', () => {
-    const component = render(<Button/>);
-    expect(component).to.have.className('button');
+  test('sets default class name', () => {
+    const { container } = render(<Button />);
+    expect(container.firstChild).toHaveClass('button');
   });
 
-  it('sets custom class name', () => {
-    const component = render(<Button className="my-button"/>);
-    expect(component).to.have.className('my-button');
+  test('sets custom class name', () => {
+    const { container } = render(<Button className="my-button" />);
+    expect(container.firstChild).toHaveClass('my-button');
   });
 
-  it('does not set default class name', () => {
-    const component = render(<Button noDefaultClassName/>);
-    expect(component).to.not.have.className('button');
+  test('does not set default class name', () => {
+    const { container } = render(<Button noDefaultClassName />);
+    expect(container.firstChild).not.toHaveClass('button');
   });
 
-  it('sets size', () => {
-    const component = render(<Button size={Sizes.SMALL}/>);
-    expect(component).to.have.className('small');
-    expect(component).to.not.have.attr('size');
+  test('sets size', () => {
+    const { container } = render(<Button size={Sizes.SMALL} />);
+    expect(container.firstChild).toHaveClass('small');
+    expect(container.firstChild).not.toHaveAttribute('size');
   });
 
-  it('sets color', () => {
-    const component = render(<Button color={Colors.SUCCESS}/>);
-    expect(component).to.have.className('success');
-    expect(component).to.not.have.attr('color');
+  test('sets color', () => {
+    const { container } = render(<Button color={Colors.SUCCESS} />);
+    expect(container.firstChild).toHaveClass('success');
+    expect(container.firstChild).not.toHaveAttribute('color');
   });
 
-  it('sets hollow', () => {
-    const component = render(<Button isHollow/>);
-    expect(component).to.have.className('hollow');
-    expect(component).to.not.have.attr('isHollow');
+  test('sets hollow', () => {
+    const { container } = render(<Button isHollow />);
+    expect(container.firstChild).toHaveClass('hollow');
+    expect(container.firstChild).not.toHaveAttribute('isHollow');
   });
 
-  it('sets clear', () => {
-    const component = render(<Button isClear/>);
-    expect(component).to.have.className('clear');
-    expect(component).to.not.have.attr('isClear');
+  test('sets clear', () => {
+    const { container } = render(<Button isClear />);
+    expect(container.firstChild).toHaveClass('clear');
+    expect(container.firstChild).not.toHaveAttribute('isClear');
   });
 
-  it('sets expanded', () => {
-    const component = render(<Button isExpanded/>);
-    expect(component).to.have.className('expanded');
-    expect(component).to.not.have.attr('isExpanded');
+  test('sets expanded', () => {
+    const { container } = render(<Button isExpanded />);
+    expect(container.firstChild).toHaveClass('expanded');
+    expect(container.firstChild).not.toHaveAttribute('isExpanded');
   });
 
-  it('sets disabled', () => {
-    const component = render(<Button isDisabled/>);
-    expect(component).to.have.className('disabled');
-    expect(component).to.not.have.attr('isDisabled');
+  test('sets disabled', () => {
+    const { container } = render(<Button isDisabled />);
+    expect(container.firstChild).toHaveClass('disabled');
+    expect(container.firstChild).not.toHaveAttribute('isDisabled');
   });
 
-  it('sets dropdown', () => {
-    const component = render(<Button isDropdown/>);
-    expect(component).to.have.className('dropdown');
-    expect(component).to.not.have.attr('isDropdown');
+  test('sets dropdown', () => {
+    const { container } = render(<Button isDropdown />);
+    expect(container.firstChild).toHaveClass('dropdown');
+    expect(container.firstChild).not.toHaveAttribute('isDropdown');
   });
 
-  it('sets arrow only', () => {
-    const component = render(<Button isArrowOnly/>);
-    expect(component).to.have.className('arrow-only');
-    expect(component).to.not.have.attr('isArrowOnly');
+  test('sets arrow only', () => {
+    const { container } = render(<Button isArrowOnly />);
+    expect(container.firstChild).toHaveClass('arrow-only');
+    expect(container.firstChild).not.toHaveAttribute('isArrowOnly');
   });
 
-  it('sets contents', () => {
-    const component = render(<Button>Submit</Button>);
-    expect(component).to.have.text('Submit');
+  test('sets contents', () => {
+    render(<Button>Submit</Button>);
+    expect(screen.getByRole('button')).toHaveTextContent('Submit');
   });
-
 });
 
 describe('Link component', () => {
-
-  it('sets tag name', () => {
-    const component = render(<Link/>);
-    expect(component).to.have.tagName('a');
+  test('sets tag name', () => {
+    const { container } = render(<Link />);
+    expect(container.firstChild.tagName).toBe('A');
   });
 
-  it('sets default class name', () => {
-    const component = render(<Link/>);
-    expect(component).to.have.className('button');
+  test('sets default class name', () => {
+    const { container } = render(<Link />);
+    expect(container.firstChild).toHaveClass('button');
   });
 
-  it('does not set default class name', () => {
-    const component = render(<Link noDefaultClassName/>);
-    expect(component).to.not.have.className('button');
+  test('does not set default class name', () => {
+    const { container } = render(<Link noDefaultClassName />);
+    expect(container.firstChild).not.toHaveClass('button');
   });
 
-  it('sets custom class name', () => {
-    const component = render(<Link className="my-button"/>);
-    expect(component).to.have.className('my-button');
+  test('sets custom class name', () => {
+    const { container } = render(<Link className="my-button" />);
+    expect(container.firstChild).toHaveClass('my-button');
   });
 
-  it('sets size', () => {
-    const component = render(<Link size={Sizes.SMALL}/>);
-    expect(component).to.have.className('small');
-    expect(component).to.not.have.attr('size');
+  test('sets size', () => {
+    const { container } = render(<Link size={Sizes.SMALL} />);
+    expect(container.firstChild).toHaveClass('small');
+    expect(container.firstChild).not.toHaveAttribute('size');
   });
 
-  it('sets color', () => {
-    const component = render(<Link color={Colors.SUCCESS}/>);
-    expect(component).to.have.className('success');
-    expect(component).to.not.have.attr('color');
+  test('sets color', () => {
+    const { container } = render(<Link color={Colors.SUCCESS} />);
+    expect(container.firstChild).toHaveClass('success');
+    expect(container.firstChild).not.toHaveAttribute('color');
   });
 
-  it('sets hollow', () => {
-    const component = render(<Link isHollow/>);
-    expect(component).to.have.className('hollow');
-    expect(component).to.not.have.attr('isHollow');
+  test('sets hollow', () => {
+    const { container } = render(<Link isHollow />);
+    expect(container.firstChild).toHaveClass('hollow');
+    expect(container.firstChild).not.toHaveAttribute('isHollow');
   });
 
-  it('sets expanded', () => {
-    const component = render(<Link isExpanded/>);
-    expect(component).to.have.className('expanded');
-    expect(component).to.not.have.attr('isExpanded');
+  test('sets expanded', () => {
+    const { container } = render(<Link isExpanded />);
+    expect(container.firstChild).toHaveClass('expanded');
+    expect(container.firstChild).not.toHaveAttribute('isExpanded');
   });
 
-  it('sets disabled', () => {
-    const component = render(<Link isDisabled/>);
-    expect(component).to.have.className('disabled');
-    expect(component).to.not.have.attr('isDisabled');
+  test('sets disabled', () => {
+    const { container } = render(<Link isDisabled />);
+    expect(container.firstChild).toHaveClass('disabled');
+    expect(container.firstChild).not.toHaveAttribute('isDisabled');
   });
 
-  it('sets dropdown', () => {
-    const component = render(<Link isDropdown/>);
-    expect(component).to.have.className('dropdown');
-    expect(component).to.not.have.attr('isDropdown');
+  test('sets dropdown', () => {
+    const { container } = render(<Link isDropdown />);
+    expect(container.firstChild).toHaveClass('dropdown');
+    expect(container.firstChild).not.toHaveAttribute('isDropdown');
   });
 
-  it('sets arrow only', () => {
-    const component = render(<Link isArrowOnly/>);
-    expect(component).to.have.className('arrow-only');
-    expect(component).to.not.have.attr('isArrowOnly');
+  test('sets arrow only', () => {
+    const { container } = render(<Link isArrowOnly />);
+    expect(container.firstChild).toHaveClass('arrow-only');
+    expect(container.firstChild).not.toHaveAttribute('isArrowOnly');
   });
 
-  it('sets contents', () => {
-    const component = render(<Link>Link</Link>);
-    expect(component).to.have.text('Link');
+  test('sets contents', () => {
+    render(<Link>Link</Link>);
+    expect(screen.getByText('Link').tagName).toBe('A');
   });
-
 });

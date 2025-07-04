@@ -143,6 +143,7 @@ describe('Link component', () => {
 
   test('sets contents', () => {
     render(<Link>Link</Link>);
-    expect(screen.getByText('Link').tagName).toBe('A');
+    const linkElement = screen.getByRole('link', { name: 'Link' });
+    expect(linkElement).toHaveTextContent('Link');
   });
 });

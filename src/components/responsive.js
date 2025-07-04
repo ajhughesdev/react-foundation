@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TopBar } from './top-bar';
 import { GeneralPropTypes, FlexboxPropTypes, createClassName, generalClassNames, removeProps, objectKeys } from '../utils';
@@ -11,87 +11,54 @@ const DEFAULT_BREAKPOINT = 640;
  * Responsive navigation component.
  * http://foundation.zurb.com/sites/docs/responsive-navigation.html
  */
-export class ResponsiveNavigation extends Component {
-  constructor() {
-    super();
+export const ResponsiveNavigation = props => {
+  const {
+    titleBar: titleBarProps = {},
+    menuIcon: menuIconProps = {},
+    titleBarTitle: titleBarTitleProps = {},
+    topBar: topBarProps = {},
+    breakpoint = DEFAULT_BREAKPOINT,
+    children,
+    ...rest
+  } = props;
 
-    this.state = {
-      isTitleBarVisible: true,
-      isTopBarVisible: false
-    };
+  const [isTitleBarVisible, setIsTitleBarVisible] = useState(true);
+  const [isTopBarVisible, setIsTopBarVisible] = useState(false);
 
-    this.update = this.update.bind(this);
-    this.toggle = this.toggle.bind(this);
-  }
-
-  componentWillMount() {
-    this.update();
-  }
-
-  componentDidMount() {
+  const update = useCallback(() => {
     if (ExecutionEnvironment.canUseDOM) {
-      window.addEventListener('resize', this.update);
+      setIsTitleBarVisible(window.innerWidth < breakpoint);
+      setIsTopBarVisible(window.innerWidth >= breakpoint);
     }
-  }
+  }, [breakpoint]);
 
-  componentWillUnmount() {
+  const toggle = useCallback(() => {
+    setIsTopBarVisible(v => !v);
+  }, []);
+
+  useEffect(() => {
+    update();
+  }, [update]);
+
+  useEffect(() => {
     if (ExecutionEnvironment.canUseDOM) {
-      window.removeEventListener('resize', this.update);
+      window.addEventListener('resize', update);
+      return () => window.removeEventListener('resize', update);
     }
-  }
+  }, [update]);
 
-  /**
-   * Updates the state of this component.
-   * While this might seem like a sub-optimal solution, it is actually the only solution.
-   * Using 'hide' and 'show' -classes won't work because they set display with `!important`.
-   */
-  update() {
-    const { breakpoint } = this.props;
-
-    if (ExecutionEnvironment.canUseDOM) {
-      this.setState({
-        isTitleBarVisible: window.innerWidth < breakpoint,
-        isTopBarVisible: window.innerWidth >= breakpoint
-      });
-    }
-  }
-
-  /**
-   * Called when the menu icon is clicked.
-   */
-  toggle() {
-    this.setState({
-      isTopBarVisible: !this.state.isTopBarVisible
-    });
-  }
-
-  render() {
-    const {
-      isTitleBarVisible,
-      isTopBarVisible
-    } = this.state;
-
-    const {
-      titleBar: titleBarProps = {},
-      menuIcon: menuIconProps = {},
-      titleBarTitle: titleBarTitleProps = {},
-      topBar: topBarProps = {},
-      children
-    } = this.props;
-
-    return (
-      <div {...removeProps(this.props, ['breakpoint'])}>
-        <TitleBar {...titleBarProps} isHidden={!isTitleBarVisible}>
-          <MenuIcon {...menuIconProps} onClick={this.toggle}/>
-          <TitleBarTitle {...titleBarTitleProps}/>
-        </TitleBar>
-        <TopBar {...topBarProps} isHidden={!isTopBarVisible}>
-          {children}
-        </TopBar>
-      </div>
-    );
-  }
-}
+  return (
+    <div {...removeProps(rest, ['breakpoint'])}>
+      <TitleBar {...titleBarProps} isHidden={!isTitleBarVisible}>
+        <MenuIcon {...menuIconProps} onClick={toggle}/>
+        <TitleBarTitle {...titleBarTitleProps}/>
+      </TitleBar>
+      <TopBar {...topBarProps} isHidden={!isTopBarVisible}>
+        {children}
+      </TopBar>
+    </div>
+  );
+};
 
 ResponsiveNavigation.propTypes = {
   ...GeneralPropTypes,

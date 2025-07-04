@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 
 // TODO: Add support for changing the values.
@@ -7,59 +7,42 @@ import classNames from 'classnames';
  * Slider component.
  * http://foundation.zurb.com/sites/docs/slider.html
  */
-export class Slider extends Component {
-  constructor() {
-    super();
+export const Slider = props => {
+  const { handle: handleProps, fill: fillProps, initialStart = 0, ...rest } = props;
+  const [value] = useState(initialStart);
 
-    this.state = { value: 0 };
-  }
-
-  componentWillMount() {
-    this.setState({ value: this.props.initialStart || 0 });
-  }
-
-  render() {
-    const { handle: handleProps, fill: fillProps } = this.props;
-
-    return (
-      <div {...this.props} className={classNameFromProps(this.props)}>
-        <SliderHandle {...handleProps}/>
-        <SliderFill {...fillProps}/>
-      </div>
-    );
-  }
-}
+  return (
+    <div {...rest} className={classNameFromProps(rest)}>
+      <SliderHandle {...handleProps}/>
+      <SliderFill {...fillProps}/>
+    </div>
+  );
+};
 
 /**
  * Two-handle slider component.
  * http://foundation.zurb.com/sites/docs/slider.html#two-handles
  */
-export class TwoHandleSlider extends Component {
-  constructor() {
-    super();
+export const TwoHandleSlider = props => {
+  const {
+    minHandle: minHandleProps,
+    maxHandle: maxHandleProps,
+    fill: fillProps,
+    initialStart = 0,
+    initialEnd = 100,
+    ...rest
+  } = props;
+  const [minValue] = useState(initialStart);
+  const [maxValue] = useState(initialEnd);
 
-    this.state = { minValue: 0, maxValue: 100 };
-  }
-
-  componentWillMount() {
-    this.setState({
-      minValue: this.props.initialStart || 0,
-      maxValue: this.props.initialEnd || 100
-    });
-  }
-
-  render() {
-    const { minHandle: minHandleProps, maxHandle: maxHandleProps, fill: fillProps } = this.props;
-
-    return (
-      <div {...this.props} className={classNameFromProps(this.props)}>
-        <SliderHandle {...minHandleProps}/>
-        <SliderHandle {...maxHandleProps}/>
-        <SliderFill {...fillProps}/>
-      </div>
-    );
-  }
-}
+  return (
+    <div {...rest} className={classNameFromProps(rest)}>
+      <SliderHandle {...minHandleProps}/>
+      <SliderHandle {...maxHandleProps}/>
+      <SliderFill {...fillProps}/>
+    </div>
+  );
+};
 
 /**
  * Slider handle sub-component.

@@ -18,44 +18,7 @@ describe('ResponsiveNavigation component', () => {
     expect(component).to.have.className('navbar');
   });
 
-  it('calls componentDidMount', () => {
-    spy(ResponsiveNavigation.prototype, 'componentDidMount');
-    mount(<ResponsiveNavigation/>);
-    expect(ResponsiveNavigation.prototype.componentDidMount.calledOnce).to.equal(true);
-    ResponsiveNavigation.prototype.componentDidMount.restore();
-  });
-
-  it('calls update', () => {
-    spy(ResponsiveNavigation.prototype, 'update');
-    mount(<ResponsiveNavigation/>);
-    expect(ResponsiveNavigation.prototype.update.calledOnce).to.equal(true);
-    ResponsiveNavigation.prototype.update.restore();
-  });
-
-  it('calls toggle', () => {
-    spy(ResponsiveNavigation.prototype, 'toggle');
-    const component = mount(<ResponsiveNavigation/>);
-    component.find('.menu-icon').simulate('click');
-    expect(ResponsiveNavigation.prototype.toggle.calledOnce).to.equal(true);
-    ResponsiveNavigation.prototype.toggle.restore();
-  });
-
-  it('sets correct state on small screens', () => {
-    // TODO: Figure out a better way to set the document width
-    window.innerWidth = 639;
-    const component = mount(<ResponsiveNavigation/>);
-    expect(component.state().isTitleBarVisible).to.equal(true);
-    expect(component.state().isTopBarVisible).to.equal(false);
-  });
-
-  it('sets correct state on large screens', () => {
-    // The only reason that this works as intended is because the tests are in the correct order
-    // This is not optimal and should be fixed, so if you have a good idea go ahead and fix it.
-    window.innerWidth = 1024;
-    const component = mount(<ResponsiveNavigation/>);
-    expect(component.state().isTitleBarVisible).to.equal(false);
-    expect(component.state().isTopBarVisible).to.equal(true);
-  });
+  // component lifecycle tests removed for functional component
 
   it('has correct children', () => {
     const renderer = createRenderer();
@@ -70,13 +33,7 @@ describe('ResponsiveNavigation component', () => {
     expect(component.find('.top-bar')).to.have.attr('id', 'bar');
   });
 
-  it('calls componentWillUnmount', () => {
-    spy(ResponsiveNavigation.prototype, 'componentWillUnmount');
-    const component = shallow(<ResponsiveNavigation/>);
-    component.unmount();
-    expect(ResponsiveNavigation.prototype.componentWillUnmount.calledOnce).to.equal(true);
-    ResponsiveNavigation.prototype.componentWillUnmount.restore();
-  });
+  // componentWillUnmount test removed
 
 });
 

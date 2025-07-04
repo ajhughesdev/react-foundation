@@ -1,10 +1,12 @@
 import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
-import chaiJsx from 'chai-jsx';
 import { jsdom } from 'jsdom';
+import Enzyme from 'enzyme';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
 chai.use(chaiEnzyme());
-chai.use(chaiJsx);
+
+Enzyme.configure({ adapter: new Adapter() });
 
 global.document = jsdom('<!doctype html><html><body></body></html>');
 global.window = document.defaultView;
